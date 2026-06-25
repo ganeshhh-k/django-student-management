@@ -21,3 +21,28 @@ def add_student(request):
     return render(
         request, 'add_student.html', {'form': form}
     )
+
+def update_student(request, id):
+    student = Student.objects.get(id=id)
+    
+    if request.method == 'POST':
+        form = StudentForm(
+            request.POST, instance=student
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+        
+    else:
+        form = StudentForm(
+            instance=student
+        )
+
+    return redirect(request, 'add_student.html', {'form': form})
+
+def delete_student(request, id):
+    student = Student.objects.get(id=id)
+    student.delete()
+
+    return redirect('/')

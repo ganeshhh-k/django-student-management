@@ -6,4 +6,10 @@ urlpatterns = [
     path(
         'add/', views.add_student
     ),
+    path(
+        'update/<int:id>/', views.update_student
+    ),
+    path(
+        'delete/<int:id>/', views.delete_student
+    ),
 ]
