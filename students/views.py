@@ -39,7 +39,7 @@ def update_student(request, id):
             instance=student
         )
 
-    return redirect(request, 'add_student.html', {'form': form})
+    return render(request, 'add_student.html', {'form': form})
 
 def delete_student(request, id):
     student = Student.objects.get(id=id)
