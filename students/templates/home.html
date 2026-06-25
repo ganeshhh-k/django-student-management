@@ -3,10 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Management</title>
+    <title>Student Directory</title>
 </head>
 <body>
-    <h1> Welcome User!</h1>
+    <h1>Students Information</h1>
+    <ul>
+        {% for student in students %}
+        <li>
+            {{ student.name }}
+            -
+            {{student.branch}}
+            -
+            {% if student.active %}
+            Active Student
+            {% else %}
+            Inactive Student
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
     
 </body>
 </html>
