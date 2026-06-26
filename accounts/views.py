@@ -4,16 +4,41 @@ from django.contrib.auth import logout, authenticate
 from django.contrib.auth import login as auth_login
 
 # Create your views here.
-def register_user(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 
-        if form.is_valid():
-            form.save()
-            return redirect('/accounts/login/')
-    else:
-        form = UserCreationForm()
-        return render(request, 'register.html', {'form': form})
+def register_user(request):
+
+    if request.method == 'POST':
+
+        username = request.POST['username']
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+
+        if password != confirm_password:
+
+            return render(
+                request,
+                'register.html',
+                {'error': 'Passwords do not match'}
+            )
+
+        if User.objects.filter(username=username).exists():
+
+            return render(
+                request,
+                'register.html',
+                {'error': 'Username already exists'}
+            )
+
+        User.objects.create_user(
+            username=username,
+            password=password
+        )
+
+        return redirect('/accounts/login/')
+
+    return render(request, 'register.html')
     
 def login_user(request):
     if request.method == 'POST':
@@ -24,9 +49,13 @@ def login_user(request):
             request, username=username, password=password
         )
 
-        if user:
+        if user is not None:
             auth_login(request, user)
             return redirect('/')
+        else:
+            return render(
+                request, 'login.html', {'error': 'Invalid Credientials'}
+            )
     return render(
         request, 'login.html'
     )

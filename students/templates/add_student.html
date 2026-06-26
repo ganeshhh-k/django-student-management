@@ -7,13 +7,106 @@
     <title>Add Students</title>
 </head>
 <body>
-    <h1 class="mb-3">Add Student</h1>
-    <form method="POST" class="mb-3 ">
-        {% csrf_token %}
-        {{form.as_p}}
+  {% extends 'base.html' %}
+    {% block content %}
+    {% if error %}
+    <div class="alert alert-denger">
+        {{error}}
+    </div>
+    {%endif%}
+    <div class="container mt-5" style="max-width:500px;">
 
-        <button type="submit" class="btn btn-primary">Add Student</button>
-    </form>
+<h2 class="mb-4">Add Student</h2>
+
+{% if error %}
+
+<div class="alert alert-danger">
+
+{{ error }}
+
+</div>
+
+{% endif %}
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="mb-3">
+<label class="form-label">Name: </label>
+<input type="text" name="name" class="form-control" required>
+</div>
+<div class="mb-3">
+<label class="form-label">Roll No: </label>
+<input type="text" name="roll_no" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Branch:</label><br>
+ <div class="form-check form-check-inline">
+<input class="form-check-input" type="radio" name="branch" value="cse">
+  <label class="form-check-label" for="cse">
+    Computer Science and Engineering
+  </label>
+  </div>
+ <div class="form-check form-check-inline">
+<input class="form-check-input" type="radio" name="branch" value="ece">
+  <label class="form-check-label" for="ece">
+    Electronics and Comminication Engineering
+  </label>
+  </div>
+ <div class="form-check form-check-inline">
+<input class="form-check-input" type="radio" name="branch" value="aiml">
+  <label class="form-check-label" for="aiml">
+    AI & ML Engineering
+  </label>
+  </div>
+  <div class="form-check form-check-inline">
+<input class="form-check-input" type="radio" name="branch" value="aids">
+  <label class="form-check-label" for="aids">
+    AI & Data Science Engineering
+  </label>
+  </div>
+  <div class="form-check form-check-inline">
+<input class="form-check-input" type="radio" name="branch" value="csds">
+  <label class="form-check-label" for="csds">
+    Computer Science & Data Science Engineering
+  </label>
+  </div>
+  <div class="form-check form-check-inline">
+<input class="form-check-input" type="radio" name="branch" value="mech">
+  <label class="form-check-label" for="mech">
+    Mechanical Engineering
+  </label>
+  </div>
+  <div class="form-check form-check-inline">
+<input class="form-check-input" type="radio" name="branch" value="civil">
+  <label class="form-check-label" for="civil">
+    Civil Engineering
+  </label>
+  </div>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Semester:</label>
+<input type="number" name="semester" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Is Active:</label>
+<div class="form-check">
+    <input type="checkbox" name="active" id="active" default="True">
+    <label for="active">Active student</label>
+</div>
+</div>
+
+<button class="btn btn-success w-100">Add</button>
+
+</form>
+
+</div>
+{% endblock %}
+
     
 </body>
 </html>
