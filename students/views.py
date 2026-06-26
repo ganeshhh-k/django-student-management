@@ -50,7 +50,7 @@ def update_student(request, id):
             instance=student
         )
 
-    return render(request, 'add_student.html', {'form': form})
+    return render(request, 'update_student.html', {'form': form})
 
 @login_required
 def delete_student(request, id):
