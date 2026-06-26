@@ -12,8 +12,214 @@
     {% block content %}
     <h1 class="">Students Information</h1>
     <div class="container-md">
-       <table class="table table-striped">
+       <form method="GET">
 
+<div class="row">
+
+<div class="col-md-3">
+
+<input
+type="text"
+class="form-control"
+name="search"
+placeholder="Search Student"
+value="{{ request.GET.search }}">
+
+</div>
+
+<div class="col-md-2">
+
+<select
+class="form-select"
+name="branch">
+
+<option value="">All Branches</option>
+
+<option value="CSE">CSE</option>
+
+<option value="ECE">ECE</option>
+
+<option value="EEE">EEE</option>
+
+<option value="AIML">AIML</option>
+
+</select>
+
+</div>
+
+<div class="col-md-2">
+
+<select
+class="form-select"
+name="semester">
+
+<option value="">Semester</option>
+
+{% for i in "12345678" %}
+
+<option value="{{ i }}">
+
+{{ i }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="col-md-2">
+
+<select
+class="form-select"
+name="status">
+
+<option value="">Status</option>
+
+<option value="active">
+
+Active
+
+</option>
+
+<option value="inactive">
+
+Inactive
+
+</option>
+
+</select>
+
+</div>
+
+<div class="col-md-2">
+
+<select
+class="form-select"
+name="sort">
+
+<option value="">Sort</option>
+
+<option value="name">
+
+Name A-Z
+
+</option>
+
+<option value="-name">
+
+Name Z-A
+
+</option>
+
+<option value="roll_no">
+
+Roll No
+
+</option>
+
+<option value="branch">
+
+Branch
+
+</option>
+
+<option value="semester">
+
+Semester
+
+</option>
+
+</select>
+
+</div>
+
+<div class="col-md-1">
+
+<button
+class="btn btn-primary">
+
+Go
+
+</button>
+<a href="{% url 'home' %}" class="btn btn-secondary">
+    Reset
+</a>
+
+</div>
+
+</div>
+
+</form>
+        <div class="row mb-4">
+
+<div class="col-md-3">
+
+<div class="card text-white bg-primary">
+
+<div class="card-body">
+
+<h5>Total Students</h5>
+
+<h2>{{ total_students }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-white bg-success">
+
+<div class="card-body">
+
+<h5>Active</h5>
+
+<h2>{{ active_students }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-white bg-danger">
+
+<div class="card-body">
+
+<h5>Inactive</h5>
+
+<h2>{{ inactive_students }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-white bg-warning">
+
+<div class="card-body">
+
+<h5>Branches</h5>
+
+<h2>{{ total_branches }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+    <table class="table table-striped">
     <thead>
         <tr>
             <th>Roll No</th>

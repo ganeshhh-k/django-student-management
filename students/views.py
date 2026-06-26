@@ -2,11 +2,45 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Student
 from .forms import StudentForm
+from django.db.models import Q
 
 def home(request):
     students = Student.objects.all()
 
-    return render(request, 'home.html', {'students': students})
+    total_students = students.count()
+    active_students = students.filter( active = True).count()
+    inactive_students = students.filter( active = False).count()
+    total_branches = Student.objects.values("branch").distinct().count()
+
+    search = request.GET.get("search")
+    if search:
+        students = students.filter(
+            Q(name__icontains=search) | Q(roll_no__icontains=search)
+        )
+
+        branch = request.GET.get("branch")
+        if branch:
+            students = students.filter(branch=branch)
+
+        semester = request.GET.get("semester")
+        if semester:
+            students = students.filter(semester = semester)
+
+        active = request.GET.get("active")
+
+        if active == "1":
+
+            students = students.filter(active=True)
+
+        elif active == "0":
+
+            students = students.filter(active=False)
+
+    return render(request, 'home.html', {"students": students,
+                                         "total_students": total_students,
+                                         "active_students": active_students,
+                                         "inactive_students": inactive_students,
+                                         "total_branches": total_branches})
 
 @login_required
 def add_student(request):
