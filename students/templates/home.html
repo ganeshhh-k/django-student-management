@@ -95,45 +95,23 @@ Inactive
 
 <div class="col-md-2">
 
-<select
-class="form-select"
-name="sort">
+<select name="sort" class="form-select">
 
-<option value="">Sort</option>
+    <option value="">Sort By</option>
 
-<option value="name">
+    <option value="name">Name (A-Z)</option>
 
-Name A-Z
+    <option value="-name">Name (Z-A)</option>
 
-</option>
+    <option value="roll_no">Roll No</option>
 
-<option value="-name">
+    <option value="branch">Branch</option>
 
-Name Z-A
-
-</option>
-
-<option value="roll_no">
-
-Roll No
-
-</option>
-
-<option value="branch">
-
-Branch
-
-</option>
-
-<option value="semester">
-
-Semester
-
-</option>
+    <option value="semester">Semester</option>
 
 </select>
 
-</div>
+</div><br>
 
 <div class="col-md-1">
 
@@ -263,9 +241,9 @@ Go
                     Edit
                 </a>
 
-                <a href="/delete/{{ student.id }}/"
-                   class="btn btn-danger btn-sm">
-                    Delete
+                <a href="{% url 'delete_student' student.id %}"
+                   class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this student?')">
+                    <i class="bi bi-trash"></i>
                 </a>
 
             </td>
@@ -277,9 +255,30 @@ Go
     </tbody>
 
 </table>
+
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if students.has_previous %}
+        <li class="page-item">
+            <a href="?page={{ students.previous_page_number }}" class="page-link">Previous</a>
+        </li>
+        {% endif%}
+        {% for page in students.paginator.page_range %}
+        <li class="page-item {% if students.number == page %}active{% endif %}">
+            <a href="?page={{ page }}" class="page-link">{{ page }}</a>
+        </li>
+        {% endfor %}
+        {% if students.has_next %}
+        <li class="page-item">
+            <a href="?page={{ students.next_page_number }}" class="page-link">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
 {% endblock %}
-    
-    
+
+
     
 </body>
 </html>

@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Student
 from .forms import StudentForm
+from django.core.paginator import Paginator
+from django.contrib import messages
 from django.db.models import Q
 
 def home(request):
@@ -18,29 +20,36 @@ def home(request):
             Q(name__icontains=search) | Q(roll_no__icontains=search)
         )
 
-        branch = request.GET.get("branch")
-        if branch:
-            students = students.filter(branch=branch)
+    branch = request.GET.get("branch")
+    if branch:
+        students = students.filter(branch=branch)
 
-        semester = request.GET.get("semester")
-        if semester:
-            students = students.filter(semester = semester)
+    semester = request.GET.get("semester")
+    if semester:
+        students = students.filter(semester = semester)
 
-        active = request.GET.get("active")
+    status = request.GET.get("status")
 
-        if active == "1":
+    if status == "active":
+        students = students.filter(active=True)
 
-            students = students.filter(active=True)
+    elif status == "inactive":
+        students = students.filter(active=False)
 
-        elif active == "0":
+    sort = request.GET.get("sort")
+    if sort:
+        students = students.order_by(sort)
 
-            students = students.filter(active=False)
+    paginator = Paginator(students, 10)
+    page_number = request.GET.get('page')
+    students = paginator.get_page(page_number)
 
     return render(request, 'home.html', {"students": students,
                                          "total_students": total_students,
                                          "active_students": active_students,
                                          "inactive_students": inactive_students,
                                          "total_branches": total_branches})
+                            
 
 @login_required
 def add_student(request):
@@ -61,6 +70,7 @@ def add_student(request):
             semester = semester,
             active = active
         )
+        messages.success(request, "Student added Successfully!")
         return redirect('/')
 
     return render(
@@ -77,6 +87,7 @@ def update_student(request, id):
 
         if form.is_valid():
             form.save()
+            messages.success(request, "Student Updated successfully!")
             return redirect('/')
         
     else:
@@ -90,5 +101,6 @@ def update_student(request, id):
 def delete_student(request, id):
     student = Student.objects.get(id=id)
     student.delete()
+    messages.warning(request, "Student deleted successfully!")
 
     return redirect('/')
