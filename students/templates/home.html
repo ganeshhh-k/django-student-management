@@ -200,6 +200,7 @@ Go
     <table class="table table-striped">
     <thead>
         <tr>
+            <th>Photo</th>
             <th>Roll No</th>
             <th>Name</th>
             <th>Branch</th>
@@ -214,7 +215,14 @@ Go
         {% for student in students %}
 
         <tr>
-
+            <td>
+                {% if student.photo %}
+                <img src="{{ student.photo.url }}" width="60" height="60"
+                    class="rounded-circle">
+                {% else %}
+                <img src="https:/via.placehholder.com/60" class="rounded-circle">
+                {% endif %}
+            </td>
             <td>{{ student.roll_no|upper }}</td>
             <td>{{ student.name|upper }}</td>
             <td>{{ student.branch|upper }}</td>
@@ -249,7 +257,6 @@ Go
             </td>
 
         </tr>
-
         {% endfor %}
 
     </tbody>

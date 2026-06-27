@@ -58,7 +58,8 @@ def add_student(request):
         name = request.POST['name']
         branch = request.POST['branch']
         semester = request.POST['semester']
-        active = 'active' in request.POST
+        active = request.POST.get("active") == "True"
+        photo = request.FILES.get("photo")
 
         if Student.objects.filter(roll_no = roll_no).exists():
             return render(request, "add_student.html", {"error": "Roll no already exists"})
@@ -68,7 +69,8 @@ def add_student(request):
             name = name,
             branch = branch,
             semester = semester,
-            active = active
+            active = active,
+            photo = photo
         )
         messages.success(request, "Student added Successfully!")
         return redirect('/')

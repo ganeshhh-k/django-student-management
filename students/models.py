@@ -6,6 +6,7 @@ class Student(models.Model):
     branch = models.CharField(max_length=50)
     semester = models.IntegerField()
     active = models.BooleanField(default=True)
+    photo = models.ImageField(upload_to="students/", blank=True, null=True)
 
     def __str__(self):
         return f"{self.roll_no} - {self.name}"
