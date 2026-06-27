@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>student profile</title>
+  </head>
+  <body>
+    {% extends 'base.html' %} {% block content %}
+    <div class="container mt-4">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3>Student Profile</h3>
+        </div>
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 text-center">
+              {% if student.photo %}
+              <img
+                src="{{ student.photo.url }}"
+                class="img-fluid rounded-circle"
+                width="220"
+              />
+              {% else %}
+              <i class="bi bi-person-circle" style="font-size: 220px"></i>
+              {% endif %}
+            </div>
+            <div class="col-md-8">
+              <table class="table">
+                <tr>
+                  <th>Roll Number</th>
+                  <td>{{ student.roll_no }}</td>
+                </tr>
+                <tr>
+                  <th>Namer</th>
+                  <td>{{ student.name }}</td>
+                </tr>
+                <tr>
+                  <th>Email</th>
+                  <td>{{ student.email }}</td>
+                </tr>
+                <tr>
+                  <th>Phone Number</th>
+                  <td>{{ student.phone }}</td>
+                </tr>
+                <tr>
+                  <th>Gender</th>
+                  <td>{{ student.gender }}</td>
+                </tr>
+                <tr>
+                  <th>Branch</th>
+                  <td>{{ student.branch }}</td>
+                </tr>
+                <tr>
+                  <th>Semester</th>
+                  <td>{{ student.semseter }}</td>
+                </tr>
+                <tr>
+                  <th>Date of Birth</th>
+                  <td>{{ student.dob }}</td>
+                </tr>
+                <tr>
+                  <th>Status</th>
+                  <td>
+                    {% if student.active %}
+                    <span class="badge bg-success">Active</span>
+                    {% else %}
+                    <span class="badge bg-danger">Inactive</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                <tr>
+                  <th>Address</th>
+                  <td>{{ student.address }}</td>
+                </tr>
+                <tr>
+                  <th>Created at</th>
+                  <td>{{ student.created_at }}</td>
+                </tr>
+                <tr>
+                  <th>Updated at</th>
+                  <td>{{ student.updated_at }}</td>
+                </tr>
+              </table>
+
+              <a
+                href="{% url 'update_student' student.id %}"
+                class="btn btn-warning"
+                >Edit</a
+              >
+              <a
+                href="{% url 'delete_student' student.id %}"
+                class="btn btn-danger"
+                >Delete</a
+              >
+              <a href="{% url 'home' %}" class="btn btn-danger">Back</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>

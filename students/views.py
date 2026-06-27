@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Student
 from .forms import StudentForm
@@ -106,3 +106,10 @@ def delete_student(request, id):
     messages.warning(request, "Student deleted successfully!")
 
     return redirect('/')
+
+def student_profile(request, id):
+    student = get_object_or_404(Student, id=id)
+
+    return render(
+        request, "student_profile.html", {"student": student}
+    )
